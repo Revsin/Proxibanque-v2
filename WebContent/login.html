@@ -18,10 +18,11 @@
 		text-align : center;
 	}
 </style>
-<script type="text/javascript" src="Pile5.js"></script>
+
+<!--  <script type="text/javascript" src="Pile5.js"></script>
 <script>
 
-	/* 
+	
 	var pile;
 
 	function verifier(){
@@ -51,9 +52,8 @@
 		elementDiv.innerHTML = table;
 	}
 	*/
-	
-	
-	
+	 -->
+<script>
 	let myCallBack = function (reponse){
 			console.log("callback a executer a la reception d'une reponse")
 			    //alert(reponse.responseText);
@@ -94,7 +94,7 @@
 				myCallBack(this);
 			}
 		}
-		xhttp.open("GET", "http://localhost/Proxibanque-v2/listeConseiller.json", true);
+		xhttp.open("GET", "listeConseiller.json", true);
 		xhttp.send();
 	}
 

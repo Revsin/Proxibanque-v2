@@ -3,6 +3,44 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Conseiller</title>
+<script>
+
+let myCallBack = function (reponse){
+	console.log("callback a executer a la reception d'une reponse")
+	    //alert(reponse.responseText);	      
+      	console.log("JsonParse")
+    	let elements = JSON.parse(reponse.responseText);
+    	let table="<tr><th>Indice</th><th>Element</th></tr>";
+		for (i = 0; i < elements.length; i++) { 
+			 let item = elements[i];
+		    table += "<tr><td>" +				   
+		    item.indice +
+		    "</td><td>" +
+		    item.numero +
+		    "</td></tr>";
+		}
+		let elementDiv = document.getElementById("divResultat");
+		elementDiv.innerHTML = table;
+      
+      
+}
+
+function call(){
+console.log("Appel AJAX");
+var xhttp = new XMLHttpRequest();		 
+xhttp.onreadystatechange = function(){
+	if (this.readyState == 4 && this.status == 200) {
+		myCallBack(this);
+	}
+}
+xhttp.open("GET", "http://localhost/Proxibanque-v2/listeClient.json", true);
+xhttp.send();
+	}
+	
+	window.onload = call;
+
+
+</script>
 </head>
 <body>
 
@@ -15,48 +53,39 @@
 	
 </div>
 
-<script>
-
-let myCallBack = function (reponse){
-	console.log("callback a executer a la reception d'une reponse")
-	    //alert(reponse.responseText);
-	let nom = document.getElementById("nom").value;
-	let prenom = document.getElementById("prenom").value;
-	console.log(nom);
-      	console.log("JsonParse")
-    	let liste = JSON.parse(reponse.responseText);
-      	let table="<tr><th>Nom</th><th>Prénom</th></tr>";
-		for (i = 0; i < clients.length; i++) { 
-			 let item = elements[i];
-		    table += "<tr><td>" +				   
-		    item.indice +
-		    "</td><td>" +
-		    item.element +
-		    "</td></tr>";
-		}
-		let elementDiv = document.getElementById("divResultat");
-		elementDiv.innerHTML = table;
-      
-      
-      
 
 
-function afficherClients(){
-		console.log("Appel AJAX");
-		var xhttp = new XMLHttpRequest();		 
-		xhttp.onreadystatechange = function(){
-			if (this.readyState == 4 && this.status == 200) {
-				myCallBack(this);
-			}
-		}
-		xhttp.open("GET", "http://localhost/Proxibanque-v2/listeClient.json", true);
-		xhttp.send();
-	}
-
-</script>
+<p id="list"></p>
 
 
-	
+	<table id="divResultat"  class="alert alert-info table table-striped"></table>
 
 </body>
 </html>
+
+
+
+
+<!-- <table class="table table-striped" id="display">
+            <tr>
+                <th>indice</th>
+                <th>numero</th>
+                <th>nom</th>
+                <th>prenom</th>            
+                <th>adresse</th>
+                <th>codePostal</th>
+                <th>ville</th>
+                <th>telephone</th>
+                <th>email</th>
+            </tr>
+            <td id = "indice">indice</td>
+            <td id = "numero">numero</td>
+            <td id = "nom">nom</td>
+            <td id = "prenom">prenom</td>
+            <td id = "adresse">adresse</td>
+            <td id = "codePostal">codepostal</td>
+            <td id = "ville">ville</td>
+            <td id = "telephone">telephone</td>
+            <td id = "email">email</td>
+                 
+        </table> -->

@@ -11,15 +11,22 @@
 		console.log("callback a executer a la reception d'une reponse")
 		//alert(reponse.responseText);	      
 		console.log("JsonParse")
+		var url_string = window.location.href;
+		//alert(url_string)
+		var url = new URL(url_string);
+		var indice_conseiller = url.searchParams.get("indice_conseiller");
+		//alert(indice_conseiller)
 		let elements = JSON.parse(reponse.responseText);
-		let table = "<tr><th>Indice</th><th>Numero</th><th>Nom</th><th>Prénom</th><th>Adresse</th><th>Code Postal</th><th>Ville</th><th>Téléphone</th><th>Email</th></tr>";
+		let table = "<tr><th>Indice</th><th>Conseiller</th><th>Numero</th><th>Nom</th><th>Prénom</th><th>Adresse</th><th>Code Postal</th><th>Ville</th><th>Téléphone</th><th>Email</th></tr>";
 		for (i = 0; i < elements.length; i++) {
 			let item = elements[i];
-			table += "<tr><td>" + item.indice + "</td><td>" + item.numero
+			if(indice_conseiller === item.conseiller){
+			table += "<tr><td>" + (i+1) +"</td><td>" + item.conseiller + "</td><td>" + item.numero
 					+ "</td><td>" + item.nom + "</td><td>" + item.prenom
 					+ "</td><td>" + item.adresse + "</td><td>"
 					+ item.codePostal + "</td><td>" + item.ville + "</td><td>"
 					+ item.telephone + "</td><td>" + item.email + "</td></tr>";
+			}
 		}
 		let elementDiv = document.getElementById("divResultat");
 		elementDiv.innerHTML = table;

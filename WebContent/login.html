@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Authentification Conseiller</title>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<style>
+
+	th {
+		text-align : center;
+		font-weight: bold;
+	}
+
+	#divResultat {
+		margin: auto;
+		width : 50%;
+		text-align : center;
+	}
+</style>
+<script type="text/javascript" src="Pile5.js"></script>
+<script>
+
+	/* 
+	var pile;
+
+	function verifier(){
+		let tailleMax = document.getElementById("tailleMax").value;
+		console.log("Taille Max : " + tailleMax);
+		pile = new Pile(tailleMax);
+		let table="<tr><th>Indice</th><th>Element</th></tr>";
+		let elementDiv = document.getElementById("divResultat");
+		elementDiv.innerHTML = table;
+	}
+
+	function empiler(){
+		let element = document.getElementById("element").value;
+		console.log("element : " + element);
+		console.log("Empiler");
+		pile.empiler(element);
+		console.log(pile.afficher());
+		let table="<tr><th>Indice</th><th>Element</th></tr>";
+		for (i = 0; i <pile.elements.length; i++) { 
+		    table += "<tr><td>" +
+		    i +
+		    "</td><td>" +
+		    pile.elements[i] +
+		    "</td></tr>";
+		}
+		let elementDiv = document.getElementById("divResultat");
+		elementDiv.innerHTML = table;
+	}
+	*/
+	
+	
+	
+	let myCallBack = function (reponse){
+			console.log("callback a executer a la reception d'une reponse")
+			    //alert(reponse.responseText);
+			let identifiant = document.getElementById("login").value;
+			let motdepasse = document.getElementById("password").value;
+			console.log(login);
+		      	console.log("JsonParse")
+		    	let conseillers = JSON.parse(reponse.responseText);
+		  
+		      	let loginOk = false;
+		      	let i=0;
+				while (loginOk !== true && i<conseillers.length) { 
+					let conseiller = conseillers[i];
+				    if (conseiller.login === identifiant && conseiller.password === motdepasse){
+				    	
+				    	loginOk = true;
+				    	break;
+				    }
+				    i++;
+				}
+				if (loginOk === true){
+				    alert("conseiller bien identifié");
+				    location.href = 'conseiller.html';
+				} else {
+					alert("Erreur Login et/ou Password !");
+				}
+				let elementDiv = document.getElementById("divResultat");
+				elementDiv.innerHTML = table;
+		      
+		      
+	}
+	
+	function verifier(){
+		console.log("Appel AJAX");
+		var xhttp = new XMLHttpRequest();		 
+		xhttp.onreadystatechange = function(){
+			if (this.readyState == 4 && this.status == 200) {
+				myCallBack(this);
+			}
+		}
+		xhttp.open("GET", "http://localhost/Proxibanque-v2/listeConseiller.json", true);
+		xhttp.send();
+	}
+
+</script>
+<style>
+	#divResultat {
+		text-align : center;
+	}
+</style>
+
+</head>
+
+<body>
+
+
+<div class="container">
+		<div class="row col-md-12 jumbotron">
+			<h1> Veuillez vous identifier</h1>
+			
+			<form>
+			  <div class="form-group">
+			    <label for="login">Login</label>
+			    <input type="text" class="form-control" id="login">
+			  </div>
+			  <div class="form-group">
+			    <label for="password">Password</label>
+			    <input type="password" class="form-control" id="password">
+			  </div>
+			  <input type="button" onclick="verifier();" class="btn btn-primary" value="Submit">
+			  
+			</form> 
+			<table id="divResultat"  class="alert alert-info table table-striped"></table>
+		</div>
+	
+	</div>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Conseiller</title>
+</head>
+<body>
+
+
+<h1> Espace conseiller</h1>
+
+<div>	
+	
+	<h1>Liste de vos Clients</h1>
+	
+</div>
+
+<script>
+
+let myCallBack = function (reponse){
+	console.log("callback a executer a la reception d'une reponse")
+	    //alert(reponse.responseText);
+	let nom = document.getElementById("nom").value;
+	let prenom = document.getElementById("prenom").value;
+	console.log(nom);
+      	console.log("JsonParse")
+    	let liste = JSON.parse(reponse.responseText);
+      	let table="<tr><th>Nom</th><th>Prénom</th></tr>";
+		for (i = 0; i < clients.length; i++) { 
+			 let item = elements[i];
+		    table += "<tr><td>" +				   
+		    item.indice +
+		    "</td><td>" +
+		    item.element +
+		    "</td></tr>";
+		}
+		let elementDiv = document.getElementById("divResultat");
+		elementDiv.innerHTML = table;
+      
+      
+      
+
+
+function afficherClients(){
+		console.log("Appel AJAX");
+		var xhttp = new XMLHttpRequest();		 
+		xhttp.onreadystatechange = function(){
+			if (this.readyState == 4 && this.status == 200) {
+				myCallBack(this);
+			}
+		}
+		xhttp.open("GET", "http://localhost/Proxibanque-v2/listeClient.json", true);
+		xhttp.send();
+	}
+
+</script>
+
+
+	
+
+</body>
+</html>

@@ -2,9 +2,14 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Conseiller</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Espace Conseiller</title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <script>
 	let myCallBack = function(reponse) {
@@ -18,18 +23,25 @@
 		//alert(indice_conseiller)
 		let elements = JSON.parse(reponse.responseText);
 		let table = "<tr><th>Indice</th><th>Conseiller</th><th>Numero</th><th>Nom</th><th>Prénom</th><th>Adresse</th><th>Code Postal</th><th>Ville</th><th>Téléphone</th><th>Email</th></tr>";
+		let option = "";
 		for (i = 0; i < elements.length; i++) {
 			let item = elements[i];
-			if(indice_conseiller === item.conseiller){
-			table += "<tr><td>" + (i+1) +"</td><td>" + item.conseiller + "</td><td>" + item.numero
-					+ "</td><td>" + item.nom + "</td><td>" + item.prenom
-					+ "</td><td>" + item.adresse + "</td><td>"
-					+ item.codePostal + "</td><td>" + item.ville + "</td><td>"
-					+ item.telephone + "</td><td>" + item.email + "</td></tr>";
+			if (indice_conseiller === item.conseiller) {
+				table += "<tr><td>" + (i + 1) + "</td><td>" + item.conseiller
+						+ "</td><td>" + item.numero + "</td><td>" + item.nom
+						+ "</td><td>" + item.prenom + "</td><td>"
+						+ item.adresse + "</td><td>" + item.codePostal
+						+ "</td><td>" + item.ville + "</td><td>"
+						+ item.telephone + "</td><td>" + item.email
+						+ "</td></tr>";
+				option += '<option value="'+ item.numero +'">' + item.prenom + " " + item.nom
+						+ " (" + item.numero + ")</option>";
 			}
 		}
-		let elementDiv = document.getElementById("divResultat");
-		elementDiv.innerHTML = table;
+		let elementTable = document.getElementById("tableResultat");
+		elementTable.innerHTML = table;
+		let elementList = document.getElementById("sel1");
+		elementList.innerHTML = option;
 
 	}
 
@@ -44,37 +56,58 @@
 		xhttp.open("GET", "listeClient.json", true);
 		xhttp.send();
 	}
+	
+	function editer() {
+		let numeroClient = document.getElementById("sel1").value;
+		location.href='editer.html?numero_client=' + numeroClient;
+	}
+	
+	function afficherCompte() {
+		let numeroClient = document.getElementById("sel1").value;
+		location.href='compteclient.html?numero_client=' + numeroClient;
+	}
 
 	window.onload = call;
 </script>
 </head>
 <body>
 
-	<div id="d1">
-		<h1>Espace conseiller</h1>
+	<div class="container">
+
+		<div id="d1">
+			<h1>Espace conseiller</h1>
+		</div>
+
+		<div>
+
+			<h1>Liste de vos Clients</h1>
+
+		</div>
+
+		<hr></hr>
+
+
+		<table id="tableResultat" class="alert alert-info table table-striped"></table>
+
+		<div class="form-group">
+			<label for="sel1">Selection du client </label>
+			<select class="form-control" id="sel1">
+			</select>
+		</div>
+		<input type="button" onclick="editer();" class="btn btn-primary" value="Editer">
+		<input type="submit" onclick="afficherCompte();" class="btn btn-primary" value="Afficher les comptes">
+		<input type="submit" onclick="depiler();" class="btn btn-primary" value="Effectuer un virement">
+
+		<br>
+		<br>
+		<div id="d2">
+
+			
+
+
+		</div>
+
 	</div>
-
-	<div>
-
-		<h1>Liste de vos Clients</h1>
-
-	</div>
-
-	<hr></hr>
-
-
-	<table id="divResultat" class="alert alert-info table table-striped"></table>
-
-
-	<div id="d2">
-		
-			<button class="button" style="vertical-align: middle"><span>Editer un client</span></button>
-			<button class="button" style="vertical-align: middle"><span>Liste des comptes</span></button>
-			<button class="button" style="vertical-align: middle"><span>Effectuer un virement</span></button>
-		
-
-	</div>
-
 </body>
 </html>
 

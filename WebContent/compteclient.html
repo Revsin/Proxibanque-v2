@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comptes du client</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script>
+	let myCallBack = function(reponse) {
+		console.log("callback a executer a la reception d'une reponse")
+		//alert(reponse.responseText);	      
+		console.log("JsonParse")
+		var url_string = window.location.href;
+		//alert(url_string)
+		var url = new URL(url_string);
+		var numeroClient = url.searchParams.get("numero_client");
+		//alert(indice_conseiller)
+		let elements = JSON.parse(reponse.responseText);
+		let table = "<tr><th>Indice</th><th>Numero de client</th><th>Numero</th><th>Type</th><th>Solde</th></tr>";
+		let input = "";
+		for (i = 0; i < elements.length; i++) {
+			let item = elements[i];
+			if (numeroClient === item.numeroClient) {
+				table += "<tr><td>" + (i + 1) + "</td><td>" + item.numeroClient
+						+ "</td><td>" + item.numeroCompte + "</td><td>" + item.typeCompte
+						+ "</td><td>" + item.solde + "</td></tr>";
+			}
+		}
+		let elementTable = document.getElementById("tableResultat");
+		elementTable.innerHTML = table;
+
+	}
+
+	function call() {
+		console.log("Appel AJAX");
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				myCallBack(this);
+			}
+		}
+		xhttp.open("GET", "listeCompte.json", true);
+		xhttp.send();
+	}
+
+	window.onload = call;
+</script>
+</head>
+<body>
+
+	<div class="container">
+
+		<h1>Détails des comptes du client</h1>
+		<hr></hr>
+		<table id="tableResultat" class="alert alert-info table table-striped"></table>
+
+	</div>
+</body>
+</html>
